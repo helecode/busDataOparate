@@ -1,0 +1,12 @@
+package com.bsth.busDataOperate.service;
+
+import com.bsth.busDataOperate.bean.LineChange;
+import com.bsth.busDataOperate.bean.RoadLine;
+
+
+public interface LineChangeService {
+    /**
+     * 增加线路改变信息
+     */
+    public int insertRoadChange(LineChange lineChange);
+}

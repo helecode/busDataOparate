@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsth.busDataOperate.Mapper.RoadStopMapper">
+    
+    <resultMap type="com.bsth.busDataOperate.bean.RoadStop" id="RoadstopResult">
+        <result property="StationStandardCode"    column="StationStandardCode"    />
+        <result property="StopId"    column="StopId"    />
+        <result property="Area"    column="Area"    />
+        <result property="District"    column="District"    />
+        <result property="Quyu"    column="Quyu"    />
+        <result property="RoadName"    column="RoadName"    />
+        <result property="StationName"    column="StationName"    />
+        <result property="PathDirection"    column="PathDirection"    />
+        <result property="StationAddress"    column="StationAddress"    />
+        <result property="StopType"    column="StopType"    />
+        <result property="LineList"    column="LineList"    />
+        <result property="StopState"    column="StopState"    />
+        <result property="SidewalkWidth"    column="SidewalkWidth"    />
+        <result property="AfterCondition"    column="AfterCondition"    />
+        <result property="SurfaceProperty"    column="SurfaceProperty"    />
+        <result property="IsMainRoad"    column="IsMainRoad"    />
+        <result property="Landmark"    column="Landmark"    />
+        <result property="RideMetroRoadName"    column="RideMetroRoadName"    />
+        <result property="Transporthub"    column="Transporthub"    />
+        <result property="CityCoordinate"    column="CityCoordinate"    />
+        <result property="UpDataTime"    column="UpDataTime"    />
+    </resultMap>
+        
+    <insert id="insertRoadStop" parameterType="com.bsth.busDataOperate.bean.RoadStop">
+        insert into roadstop
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="StationStandardCode != null">StationStandardCode,</if>
+            <if test="StopId != null and StopId != ''">StopId,</if>
+            <if test="Area != null">Area,</if>
+            <if test="District != null">District,</if>
+            <if test="Quyu != null">Quyu,</if>
+            <if test="RoadName != null">RoadName,</if>
+            <if test="StationName != null">StationName,</if>
+            <if test="PathDirection != null">PathDirection,</if>
+            <if test="StationAddress != null">StationAddress,</if>
+            <if test="StopType != null">StopType,</if>
+            <if test="LineList != null">LineList,</if>
+            <if test="StopState != null">StopState,</if>
+            <if test="SidewalkWidth != null">SidewalkWidth,</if>
+            <if test="AfterCondition != null">AfterCondition,</if>
+            <if test="SurfaceProperty != null">SurfaceProperty,</if>
+            <if test="IsMainRoad != null">IsMainRoad,</if>
+            <if test="Landmark != null">Landmark,</if>
+            <if test="RideMetroRoadName != null">RideMetroRoadName,</if>
+            <if test="Transporthub != null">Transporthub,</if>
+            <if test="CityCoordinate != null">CityCoordinate,</if>
+            <if test="UpDataTime != null">UpDataTime,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="StationStandardCode != null">#{StationStandardCode},</if>
+            <if test="StopId != null and StopId != ''">#{StopId},</if>
+            <if test="Area != null">#{Area},</if>
+            <if test="District != null">#{District},</if>
+            <if test="Quyu != null">#{Quyu},</if>
+            <if test="RoadName != null">#{RoadName},</if>
+            <if test="StationName != null">#{StationName},</if>
+            <if test="PathDirection != null">#{PathDirection},</if>
+            <if test="StationAddress != null">#{StationAddress},</if>
+            <if test="StopType != null">#{StopType},</if>
+            <if test="LineList != null">#{LineList},</if>
+            <if test="StopState != null">#{StopState},</if>
+            <if test="SidewalkWidth != null">#{SidewalkWidth},</if>
+            <if test="AfterCondition != null">#{AfterCondition},</if>
+            <if test="SurfaceProperty != null">#{SurfaceProperty},</if>
+            <if test="IsMainRoad != null">#{IsMainRoad},</if>
+            <if test="Landmark != null">#{Landmark},</if>
+            <if test="RideMetroRoadName != null">#{RideMetroRoadName},</if>
+            <if test="Transporthub != null">#{Transporthub},</if>
+            <if test="CityCoordinate != null">#{CityCoordinate},</if>
+            <if test="UpDataTime != null">#{UpDataTime},</if>
+         </trim>
+    </insert>
+
+
+
+ 
+
+
+</mapper>

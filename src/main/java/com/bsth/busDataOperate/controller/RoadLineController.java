@@ -1,0 +1,109 @@
+package com.bsth.busDataOperate.controller;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import com.alibaba.druid.support.json.JSONParser;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.bsth.busDataOperate.bean.RoadLine;
+import com.bsth.busDataOperate.bean.RoadStop;
+import com.bsth.busDataOperate.constant.Constant;
+import com.bsth.busDataOperate.service.RoadLineService;
+import com.bsth.busDataOperate.util.RequestURL;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+
+
+@Controller
+public class RoadLineController {
+	
+	private static final Logger log = LoggerFactory.getLogger(RoadLineController.class);
+	@Autowired
+	public RoadLineService roadLineService;
+
+	@RequestMapping("/PudongRoadLine")
+	@ResponseBody
+	public String PudongroadLine() {
+		JSONObject json=RequestURL.getRequestURLResult(Constant.PudongRoadLine);
+		JSONObject jsonReturn=new JSONObject();
+		JSONObject jsonReturnValue=new JSONObject();
+		
+		if(json==null) {
+			jsonReturnValue.put("code", 0);
+			jsonReturnValue.put("msg", "URL返回结果为空");
+			jsonReturn.put("result", jsonReturnValue);
+			return jsonReturn.toJSONString();
+		}
+		JSONArray  jsonArray=json.getJSONObject("result").getJSONArray("data");
+		for (int i = 0; i <jsonArray.size(); i++) {
+			if(jsonArray.getJSONObject(i).getString("UpStream").equals("0")) {
+				continue;
+			}
+			RoadLine roadLine=new RoadLine();
+			roadLine.setRoadLine(jsonArray.getJSONObject(i).getString("RoadLine")); 
+			roadLine.setLineStandardCode(jsonArray.getJSONObject(i).getString("LineStandardCode"));
+			roadLine.setRunCompany(jsonArray.getJSONObject(i).getString("RunCompany")); 
+			String RunCompany=jsonArray.getJSONObject(i).getString("RunCompany");
+			if(!(RunCompany.equals("上南公交")||RunCompany.equals("金高公交")||RunCompany.equals("杨高公交")||RunCompany.equals("南汇公交"))) {
+				continue;
+			}
+			//上行终点，下行起点
+			roadLine.setUpStreamStop(jsonArray.getJSONObject(i).getString("ToDirection")); 
+			roadLine.setDownStreamStart(jsonArray.getJSONObject(i).getString("ToDirection"));
+			JSONArray roadLineStopJSONArray=jsonArray.getJSONObject(i).getJSONArray("listdata");
+			for(int j=0;j<roadLineStopJSONArray.size();j++) {
+				String LevelId=roadLineStopJSONArray.getJSONObject(j).getString("LevelId");
+				if(LevelId.equals("1")) {
+			//上行起点，下行终点
+					roadLine.setUpStreamStart(roadLineStopJSONArray.getJSONObject(j).getString("StationName"));
+					roadLine.setDownStreamStop(roadLineStopJSONArray.getJSONObject(j).getString("StationName"));
+					break;
+				}
+			}
+			roadLine.setRoadType(jsonArray.getJSONObject(i).getString("RoadType")); 
+			roadLine.setGJRoad(jsonArray.getJSONObject(i).getBoolean("GJRoad")); 
+			roadLine.setHaveAir(jsonArray.getJSONObject(i).getBoolean("HaveAir")); 
+			roadLine.setHaveSeveicer(jsonArray.getJSONObject(i).getString("HaveSeveicer"));
+			roadLine.setTicketStyle(jsonArray.getJSONObject(i).getString("TicketStyle"));
+			roadLine.setPeakTime (jsonArray.getJSONObject(i).getString("PeakTime")); 
+			roadLine.setSETime(jsonArray.getJSONObject(i).getString("SETime")); 
+			roadLine.setIsOnline(jsonArray.getJSONObject(i).getBoolean("IsOnline")); 
+			roadLine.setRoadClass(jsonArray.getJSONObject(i).getString("RoadClass")); 
+			String SignDate=jsonArray.getJSONObject(i).getString("SignDate");
+			if(SignDate!=null&&!"".equals(SignDate)) {
+				try {
+					roadLine.setSignDate(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(SignDate));
+				} catch (ParseException e) {
+					log.info("SignDate格式错误，应为yyyy/MM/dd HH:mm:ss");
+					e.printStackTrace();
+				}
+			}
+			roadLine.setIsInterval(jsonArray.getJSONObject(i).getBoolean("Interval"));
+			roadLine.setIntervaltime(jsonArray.getJSONObject(i).getLong("Intervaltime"));
+			roadLine.setSpecial(jsonArray.getJSONObject(i).getBoolean("Special")); 
+			roadLine.setLineLatlon(jsonArray.getJSONObject(i).getString("LineLatlon")); 
+			roadLine.setCityCoordinate (jsonArray.getJSONObject(i).getString("CityCoordinate")); 
+			roadLine.setUpDataTime(jsonArray.getJSONObject(i).getString("UpDataTime"));
+			//System.out.println("i:"+roadLine);
+			roadLineService.insertRoadLine(roadLine);
+	}
+		log.info("size:"+jsonArray.size());
+		log.info("RoadLine入库成功");
+		jsonReturnValue.put("code", 1);
+		jsonReturnValue.put("msg", "RoadLine入库成功");
+		jsonReturn.put("result", jsonReturnValue);
+	  return jsonReturn.toJSONString();
+	}
+
+}

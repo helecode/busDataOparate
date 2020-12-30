@@ -1,0 +1,29 @@
+package com.bsth.busDataOperate.Mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+
+import com.bsth.busDataOperate.bean.LineChange;
+import com.bsth.busDataOperate.bean.RoadLine;
+import com.bsth.busDataOperate.bean.RoadStop;
+@Mapper
+public interface LineChangeMapper {
+    /**
+     * 增加线路改变信息
+     */
+    public int insertRoadChange(LineChange lineChange);
+    
+    /**
+     * 通过线路名和更新时间查找
+     */
+    
+    public List<LineChange> selectRoadChange(LineChange lineChange);
+    
+    
+}
+
+

@@ -1,0 +1,15 @@
+spring.thymeleaf.cache=true        
+spring.devtools.restart.enabled=true   
+spring.devtools.restart.additional-paths=src/main/java 
+
+# 在当前项目下生成bsthDataOperate.log日志
+logging.file.name=bsthDataOperate.log
+
+
+#  在控制台输出的日志的格式
+logging.pattern.console=%d{yyyy-MM-dd HH:mm:ss}==%msg%n
+# 指定文件中日志输出的格式
+logging.pattern.file=%d{yyyy-MM-dd HH:mm:ss}==%msg%n
+
+#配置quartz定时任务表达式
+cron.timer=0 */3 * * * ?

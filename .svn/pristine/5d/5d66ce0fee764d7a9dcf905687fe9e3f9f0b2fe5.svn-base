@@ -1,0 +1,117 @@
+package com.bsth.busDataOperate.controller;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.druid.support.json.JSONParser;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.bsth.busDataOperate.Mapper.RoadStopMapper;
+import com.bsth.busDataOperate.bean.LineChange;
+import com.bsth.busDataOperate.bean.RoadLine;
+import com.bsth.busDataOperate.bean.RoadStop;
+import com.bsth.busDataOperate.constant.Constant;
+import com.bsth.busDataOperate.service.LineChangeService;
+import com.bsth.busDataOperate.service.RoadStopService;
+import com.bsth.busDataOperate.util.Md532;
+import com.bsth.busDataOperate.util.RequestURL;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+
+
+
+@Controller
+@EnableScheduling
+public class LineChangeController {
+	private static final Logger log = LoggerFactory.getLogger(LineChangeController.class);
+	@Autowired
+	public LineChangeService lineChangeService;
+
+	@RequestMapping("/PudongLineChangeInsert")
+	@ResponseBody
+	public String PudongLineChangeInsert(){
+		JSONObject json=RequestURL.getRequestURLResult(Constant.LineChange);
+		JSONObject jsonReturn=new JSONObject();
+		JSONObject jsonReturnValue=new JSONObject();
+		
+		if(json==null) {
+			jsonReturnValue.put("code", 0);
+			jsonReturnValue.put("msg", "URL返回结果为空");
+			jsonReturn.put("result", jsonReturnValue);
+			return jsonReturn.toJSONString();
+		}
+			
+		JSONArray  jsonArray=json.getJSONObject("result").getJSONArray("data");
+		  for (int i=0; i <jsonArray.size(); i++) {
+			  	LineChange lineChange=new LineChange(); 
+			  	RoadLine roadLine=new RoadLine();
+			  	roadLine.setRoadLine(jsonArray.getJSONObject(i).getString("RoadLine"));
+			  	lineChange.setRoadLine(roadLine);
+			  	try {
+					lineChange.setChangeDate(new SimpleDateFormat("yyyy-MM-dd").parse(jsonArray.getJSONObject(i).getString("ChangeDate")));
+				} catch (ParseException e) {
+					log.info("data格式错误，应为yyyy-MM-dd");
+					e.printStackTrace();
+				}
+			  	System.out.println("i:"+i+"\tlineChnange:"+lineChange);
+			  	lineChangeService.insertRoadChange(lineChange);
+	        }
+		  	log.info("size:"+jsonArray.size());
+			jsonReturnValue.put("code", 1);
+			jsonReturnValue.put("msg", "LineChange入库成功");
+			jsonReturn.put("result", jsonReturnValue);
+		  return jsonReturn.toJSONString();
+	}
+	@RequestMapping("/PudongLineChangeUpdate")
+	@ResponseBody
+	public String PudongLineChangeUpdate(){
+		JSONObject json=RequestURL.getRequestURLResult(Constant.LineChange);
+		JSONObject jsonReturn=new JSONObject();
+		JSONObject jsonReturnValue=new JSONObject();
+		
+		if(json==null) {
+			jsonReturnValue.put("code", 0);
+			jsonReturnValue.put("msg", "URL返回结果为空");
+			jsonReturn.put("result", jsonReturnValue);
+			return jsonReturn.toJSONString();
+		}
+			
+		JSONArray  jsonArray=json.getJSONObject("result").getJSONArray("data");
+		  for (int i=0; i <jsonArray.size(); i++) {
+			  	LineChange lineChange=new LineChange(); 
+			  	RoadLine roadLine=new RoadLine();
+			  	roadLine.setRoadLine(jsonArray.getJSONObject(i).getString("RoadLine"));
+			  	lineChange.setRoadLine(roadLine);
+			  	try {
+					lineChange.setChangeDate(new SimpleDateFormat("yyyy-MM-dd").parse(jsonArray.getJSONObject(i).getString("ChangeDate")));
+				} catch (ParseException e) {
+					log.info("data格式错误，应为yyyy-MM-dd");
+					e.printStackTrace();
+				}
+			  	System.out.println("i:"+i+"\tlineChnange:"+lineChange);
+			  	lineChangeService.insertRoadChange(lineChange);
+	        }
+		  	log.info("size:"+jsonArray.size());
+			jsonReturnValue.put("code", 1);
+			jsonReturnValue.put("msg", "LineChange更新成功");
+			jsonReturn.put("result", jsonReturnValue);
+		  return jsonReturn.toJSONString();
+	}
+}

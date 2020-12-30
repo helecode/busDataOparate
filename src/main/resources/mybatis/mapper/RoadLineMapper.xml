@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsth.busDataOperate.Mapper.RoadLineMapper">
+  
+        <insert id="insertRoadLine" parameterType="com.bsth.busDataOperate.bean.RoadLine">
+        insert into roadline
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="RoadLine != null">RoadLine,</if>
+            <if test="LineStandardCode != null">LineStandardCode,</if>
+            <if test="RunCompany != null">RunCompany,</if>
+            <if test="UpStreamStart != null">UpStreamStart,</if>
+            <if test="UpStreamStop != null">UpStreamStop,</if>
+            <if test="DownStreamStart != null">DownStreamStart,</if>
+            <if test="DownStreamStop != null">DownStreamStop,</if>
+            <if test="RoadType != null">RoadType,</if>
+            <if test="GJRoad != null">GJRoad,</if>
+            <if test="HaveAir != null">HaveAir,</if>      
+            <if test="HaveSeveicer != null">HaveSeveicer,</if>
+            <if test="TicketStyle != null">TicketStyle,</if>
+            <if test="PeakTime != null">PeakTime,</if>
+            <if test="SETime != null">SETime,</if>
+            <if test="IsOnline != null">IsOnline,</if>
+            <if test="RoadClass != null">RoadClass,</if>
+            <if test="SignDate != null">SignDate,</if>
+            <if test="IsInterval != null">IsInterval,</if>
+            <if test="Intervaltime != null">Intervaltime,</if>
+            <if test="Special != null">Special,</if>
+            <if test="LineLatlon != null">LineLatlon,</if>
+            <if test="CityCoordinate != null">CityCoordinate,</if>
+            <if test="UpDataTime != null">UpDataTime,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="RoadLine != null">#{RoadLine},</if>
+            <if test="LineStandardCode != null">#{LineStandardCode},</if>
+            <if test="RunCompany != null">#{RunCompany},</if>
+            <if test="UpStreamStart != null">#{UpStreamStart},</if>
+            <if test="UpStreamStop != null">#{UpStreamStop},</if>
+            <if test="DownStreamStart != null">#{DownStreamStart},</if>
+            <if test="DownStreamStop != null">#{DownStreamStop},</if>
+            <if test="RoadType != null">#{RoadType},</if>
+            <if test="GJRoad != null">#{GJRoad},</if>
+            <if test="HaveAir != null">#{HaveAir},</if>
+            <if test="HaveSeveicer != null">#{HaveSeveicer},</if>
+            <if test="TicketStyle != null">#{TicketStyle},</if>
+            <if test="PeakTime != null">#{PeakTime},</if>
+            <if test="SETime != null">#{SETime},</if>
+            <if test="IsOnline != null">#{IsOnline},</if>
+            <if test="RoadClass != null">#{RoadClass},</if>
+            <if test="SignDate != null">#{SignDate},</if>
+            <if test="IsInterval != null">#{IsInterval},</if>
+            <if test="Intervaltime != null">#{Intervaltime},</if>
+            <if test="Special != null">#{Special},</if>
+            <if test="LineLatlon != null">#{LineLatlon},</if>
+            <if test="CityCoordinate != null">#{CityCoordinate},</if>
+            <if test="UpDataTime != null">#{UpDataTime},</if>
+         </trim>
+    </insert>
+
+
+
+
+</mapper>

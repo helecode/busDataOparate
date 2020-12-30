@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsth.busDataOperate.Mapper.RoadLineStopMapper">
+    
+  
+    <insert id="insertRoadLineStop" parameterType="com.bsth.busDataOperate.bean.RoadLineStop">
+        insert into roadlinestop
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="RoadLine != null">RoadLine,</if>
+            <if test="LineStandardCode != null">LineStandardCode,</if>
+            <if test="StationName != null">StationName,</if>
+            <if test="LevelName != null">LevelName,</if>
+            <if test="StationStandardCode != null">StationStandardCode,</if>
+            <if test="UpStream != null">UpStream,</if>
+            <if test="PathDirection != null">PathDirection,</if>
+            <if test="LevelId != null">LevelId,</if>
+            <if test="StationType != null">StationType,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="RoadLine != null">#{RoadLine.RoadLine},</if>
+            <if test="LineStandardCode != null">#{LineStandardCode},</if>
+            <if test="StationName != null">#{StationName},</if>
+            <if test="LevelName != null">#{LevelName},</if>
+            <if test="StationStandardCode != null">#{StationStandardCode.StationStandardCode},</if>
+            <if test="UpStream != null">#{UpStream},</if>
+            <if test="PathDirection != null">#{PathDirection},</if>
+            <if test="LevelId != null">#{LevelId},</if>
+            <if test="StationType != null">#{StationType},</if>
+         </trim>
+    </insert>
+
+
+</mapper>

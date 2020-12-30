@@ -1,0 +1,25 @@
+package com.bsth.busDataOperate.serviceImpl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.bsth.busDataOperate.Mapper.RoadLineStopMapper;
+import com.bsth.busDataOperate.Mapper.RoadStopMapper;
+import com.bsth.busDataOperate.bean.RoadLineStop;
+import com.bsth.busDataOperate.bean.RoadStop;
+import com.bsth.busDataOperate.service.RoadLineStopService;
+import com.bsth.busDataOperate.service.RoadStopService;
+@Service
+public class RoadLineStopServiceImpl implements RoadLineStopService{
+	@Autowired
+	public RoadLineStopMapper roadLineStopMapper;
+
+	@Override
+	public int insertRoadLineStop(RoadLineStop roadLineStop) {
+		// TODO Auto-generated method stub
+		return roadLineStopMapper.insertRoadLineStop(roadLineStop);
+	}
+
+	
+
+}
